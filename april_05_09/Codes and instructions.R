@@ -41,3 +41,4 @@ render("RMD_class_1.Rmd", clean = FALSE)   # tells knitr to keep the intermediat
 # 
 # - If you get that far, do a loop with render() to quickly create 8 reports in pdfs.
 
+# I will upload my solutions tomorrow.
