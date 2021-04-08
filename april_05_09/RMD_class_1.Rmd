@@ -388,6 +388,8 @@ Then create a short report (you can copy the content from Wikipedia or other pag
 7. `knitr` your report and save it in the "RMarkdown folder" of your repo. 
 8. Commit the changes and push them to Github.
 
+### *I will upload my solutions tomorrow*
+
 ### Some other chunk options
 
 E.g.:
