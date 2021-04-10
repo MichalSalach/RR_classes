@@ -40,5 +40,3 @@ render("RMD_class_1.Rmd", clean = FALSE)   # tells knitr to keep the intermediat
 # the report includes info for the correct season
 # 
 # - If you get that far, do a loop with render() to quickly create 8 reports in pdfs.
-
-# I will upload my solutions tomorrow.
