@@ -1,0 +1,50 @@
+---
+title: "Class 6: Exercise 1"
+author: "Michał Sałach"
+date: "10 04 2021"
+output: html_document
+---
+
+```{r setup, include = FALSE}
+
+# global options
+knitr::opts_chunk$set(echo = TRUE)
+
+# libraries
+library('rvest')
+
+# data
+url <- 'https://en.wikipedia.org/wiki/Outlander_(TV_series)'
+webpage <- read_html(url)
+tables <- html_nodes(webpage, "table")
+df <- html_table(tables[grep("wikitable plainrowheaders", tables, ignore.case = TRUE)],
+                 fill = TRUE)[[2]]
+names(df) <- c('Season', 'Timeslot (ET)', 'Episodes', 'First aired date', 
+              'First aired avg. viewers (millions)', 'Last aired date',
+              'Last aired avg. viewers (millions)', 'Avg. viewers (millions)',
+              'Avg. 18–49 rating')
+
+df <- df[-1,]
+
+# remove footnotes in '[]' from columns 5,7,8,9
+string_cut <- function(x){substr(x, 1, 4)}
+
+df[,5] <- string_cut(df[,5])
+df[,7] <- string_cut(df[,7])
+df[,8] <- string_cut(df[,8])
+df[,9] <- string_cut(df[,9])
+
+# alternative ways of stripping:
+# sub("\\[.*", "", df[,5])  
+# library(stringr)
+# str_extract(df[,5], regex('.*(?=\\[)')) 
+
+```
+
+# *Outlander* (TV Series)
+
+[**Outlander**](https://en.wikipedia.org/wiki/Outlander_(TV_series)) is an historical drama television series based on the ongoing novel series of the same name by *Diana Gabaldon*. Developed by *Ronald D. Moore*, the show premiered on August 9, 2014, on Starz. It stars *Caitriona Balfe* as Claire Randall, a married former World War II military nurse in Scotland who, in 1945, finds herself transported back to 1743. There she encounters the dashing Highland warrior Jamie Fraser (*Sam Heughan*), a member of Gabaldon's fictionalized version of Clan Fraser of Lovat, and becomes embroiled in the Jacobite rising.
+
+The 16-episode first season of the television series (released as two half-seasons) is based on the first novel in the series, Outlander (known as *Cross Stitch* in the U.K.). The second season of 13 episodes, based on Dragonfly in Amber, aired from April to July 2016. The 13-episode third season, based on Voyager, aired from September to December 2017. The 13-episode fourth season, based on Drums of Autumn, aired from November 2018 to January 2019. The fifth season of 12 episodes, based on The Fiery Cross, aired from February to May 2020.
+
+The series has been renewed for 12-episode sixth and seventh seasons to be based on A Breath of Snow and Ashes and An Echo in the Bone. 
