@@ -13,6 +13,7 @@ knitr::opts_chunk$set(echo = FALSE)
 # libraries
 library(rvest)
 library(tidyverse)
+library(ggtext)
 library(kableExtra)
 
 # data
@@ -74,8 +75,32 @@ df %>%
   theme_minimal() +
   theme(legend.position = 'bottom', text = element_text(size = 13)) +
   labs(title = 'Viewership by seasons', y = 'Millions of vievers') +
-  scale_color_discrete(labels = c('Avg. viewers',
-                                  'First aired avg. viewers',
-                                  'Last aired avg. viewers'))
+  scale_color_brewer(palette = 'Dark2', labels = c('Avg. viewers',
+                                                     'First aired avg. viewers',
+                                                     'Last aired avg. viewers'))
+
+```
+<br>
+
+``` {r changes-graph, fig.align = 'center', warning = FALSE}
+
+df %>% 
+  mutate(viewership_change = `Avg. viewers (millions)` - lag(`Avg. viewers (millions)`),
+         rating_change = `Avg. 18–49 rating` - lag(`Avg. 18–49 rating`)) %>% 
+  pivot_longer(cols = c(viewership_change, rating_change), names_to = 'change') %>% 
+  ggplot(aes(x = Season, y = value, color = change)) +
+  geom_point(size = 5, shape = 18) +
+  geom_line(size = 1.2) +
+  theme_minimal() +
+  theme(legend.position = 'bottom', legend.title = element_blank(),
+        text = element_text(size = 13), 
+        axis.title.y = element_markdown(),
+        plot.caption = element_markdown(size = 10)) +
+  labs(title = 'Season/season change in average rating and viewership', 
+       y = 'Change<sup>1</sup>',
+       caption = '<sup>1</sup>Change is calculated with respect to the value for the previous season.') +
+  scale_color_brewer(palette = 'Dark2', labels = c('Rating', 'Avg. viewers (Millions)')) +
+  scale_x_continuous(limits = c(2, 5)) +
+  scale_y_continuous(limits = c(-.5, .5))
 
 ```
