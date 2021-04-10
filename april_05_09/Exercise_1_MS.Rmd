@@ -1,8 +1,10 @@
 ---
 title: "Class 6: Exercise 1"
 author: "Michał Sałach"
-date: "10 04 2021"
-output: html_document
+date: "April 10, 2021"
+output:
+  prettydoc::html_pretty:
+    theme: cayman
 ---
 
 ```{r setup, include = FALSE}
@@ -47,13 +49,15 @@ for(col in c(4,6)){df[, col] <- sub("\\s\\(.*", "", df[, col])}
 
 ```
 
-# *Outlander* (TV Series)
+# *Outlander* (TV Series)^[The following entry was copied from [Wikipedia](https://en.wikipedia.org/wiki/Outlander_(TV_series)) on April 10, 2021.]
 
+<div align="justify">
 [**Outlander**](https://en.wikipedia.org/wiki/Outlander_(TV_series)) is an historical drama television series based on the ongoing novel series of the same name by *Diana Gabaldon*. Developed by *Ronald D. Moore*, the show premiered on August 9, 2014, on Starz. It stars *Caitriona Balfe* as Claire Randall, a married former World War II military nurse in Scotland who, in 1945, finds herself transported back to 1743. There she encounters the dashing Highland warrior Jamie Fraser (*Sam Heughan*), a member of Gabaldon's fictionalized version of Clan Fraser of Lovat, and becomes embroiled in the Jacobite rising.
 
 The 16-episode first season of the television series (released as two half-seasons) is based on the first novel in the series, Outlander (known as *Cross Stitch* in the U.K.). The second season of 13 episodes, based on Dragonfly in Amber, aired from April to July 2016. The 13-episode third season, based on Voyager, aired from September to December 2017. The 13-episode fourth season, based on Drums of Autumn, aired from November 2018 to January 2019. The fifth season of 12 episodes, based on The Fiery Cross, aired from February to May 2020.
 
 The series has been renewed for 12-episode sixth and seventh seasons to be based on A Breath of Snow and Ashes and An Echo in the Bone. 
+</div>
 
 <br>
 ![](https://pitlochryscotland.files.wordpress.com/2014/11/outlander-characters-with-text.jpg)
@@ -64,8 +68,9 @@ The series has been renewed for 12-episode sixth and seventh seasons to be based
 ```{r table}
 
 df %>% 
-  kable(row.names = FALSE) %>% 
-  kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover", "condensed"))
+  kbl(row.names = FALSE) %>% 
+  kable_paper(c('striped', 'hover'), full_width = FALSE) %>% 
+  row_spec(0, color = 'white')
 
 ```
 
@@ -108,7 +113,8 @@ df %>%
 
 ```
 
+<p align="justify">
 Season 3, which was the most popular one, was also best rated by the audience. It was viewed by
 `r df[3,8]` million viewers on average and was rated `r {df[3,9]}`. The series' popularity measured by the number of viewers and the ratings were tangibly correlated. After season 3, season 4 brought the most significant decline in absolute terms both in the rating and in the audience, which shrinked by `r abs(df[4,8]-df[3,8])` millions, reaching `r df[4,8]` M. The 5^th^ and last season to date, with the last episode aired on `r df[5,6]`, continued the negative trend: the series lost another `r abs(df[5,8]-df[4,8])` million viewers, reaching `r df[5,8]` M, and the average score was only `r df[5,9]`.
-
+</p>
 <br>
