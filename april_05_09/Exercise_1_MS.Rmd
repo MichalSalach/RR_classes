@@ -8,10 +8,12 @@ output: html_document
 ```{r setup, include = FALSE}
 
 # global options
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 
 # libraries
-library('rvest')
+library(rvest)
+library(tidyverse)
+library(kableExtra)
 
 # data
 url <- 'https://en.wikipedia.org/wiki/Outlander_(TV_series)'
@@ -51,3 +53,12 @@ The series has been renewed for 12-episode sixth and seventh seasons to be based
 
 ![](https://pitlochryscotland.files.wordpress.com/2014/11/outlander-characters-with-text.jpg)
 
+## Viewership and ratings
+
+```{r table}
+
+df %>% 
+  kable(row.names = FALSE) %>% 
+  kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover", "condensed"))
+
+```
