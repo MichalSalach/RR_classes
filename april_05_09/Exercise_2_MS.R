@@ -99,16 +99,17 @@ season_data %>%
   rename(`No. in season` = no_season,
          Title = title,
          `Directed by` = directed_by,
-         `No. of viewers` = viewers) %>% 
+         `No. of viewers (M)` = viewers) %>% 
   kbl(row.names = FALSE) %>% 
   kable_styling(c('striped', 'hover'), full_width = FALSE)
 
 #' <br></div>
 
 # For producing reports for all seasons:
-# NOTE: do not save this file (ex_2.R) with the section underneth uncommented, in order to
-# prevent the rendering function from iterating 'infinitely'
+# NOTE: do not save this file (Exercise_2_MS.R) with the section underneth uncommented, in order 
+# to prevent the rendering function from iterating 'infinitely'.
 # for(i in 1:8){
-#   rmarkdown::render('ex_2.R', output_file = paste0('ex_2_season_', i, '.html'),
-#                                                    params = list(season = i))
+#   rmarkdown::render('april_05_09/Exercise_2_MS.R',
+#                     output_file = paste0('Exercise_2_MS.R_season_', i, '.html'), # Note: output file must not be given april_05_09/ directory in order to be placed there 
+#                     params = list(season = i))
 # }
