@@ -1,0 +1,68 @@
+---
+title: "(R)Markdown #3"
+author: "Wojciech Hardy; Michał Paliński"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    toc_depth: 2
+    theme: united
+    highlight: pygments
+bibliography: bibliography.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# A bit more about YAML
+
+1) We’ve been editing YAML before. We can actually put the info from YAML in a separate file that will be automatically considered for all documents in the folder.
+
+It's helpful when:
+
+- there's several documents that we want to have similar settings.
+- we work with a team and want everyone to use the same settings.
+
+2)	The file name should be _“_output.yaml”_. It can be opened in notepad and takes the same input as YAML.
+
+We can cut a part from the original document and paste it in the file, e.g.:
+
+`html_document:`  
+`   toc: true`  
+`   toc_float: true`  
+`   number_sections: true`  
+`   toc_depth: 2`
+
+Let's do this now for this document.
+
+When we `knitr` it again, nothing should change.
+
+---
+
+We can add an automated citation-bibliography management. RMarkdown requires an input in the form of bibliographic metadata. These can come in several formats. One example is the TeX-related BibTeX. Still, all formats are first converted to CSL-JSON.
+
+You can use a TeX-style bibliography (BibTeX). You’re going to need to specify:
+bibliography: bibliography.bib .
+
+## Example {.tabset}
+
+(Be sure to check the References at the end of the document!)
+
+### MD
+
+`Studies concerning other cultural goods exploit quasi-natural experiments of policy and institutional changes. One example of the policy change is the introduction of download penalization in France (HADOPI), as scrutinized by @danaher_effect_2012. The analyzed cases of institutional change include the sudden and transitory disappearance of the NBC content from iTunes [@danaher_converting_2010] as well as the Megaupload shutdown [@danaher_gone_2014; @peukert_piracy_2013] and website blocking in the UK [@danaher_website_2016]. Interestingly, @danaher_gone_2014 and @peukert_piracy_2013 analyzing the same case of Megaupload shutdown come to rather different conclusions: the former find that the shutdown caused an increase in digital downloads from legal sources; the latter finds no change in box office revenue. This difference could be attributed to the fact that a downloaded "pirated" copy may be a perfect substitute for a copy downloaded from a legitimate source, but not for a visit to the movie theater. @danaher_website_2016 argue that only large scale interventions (such as blocking multiple websites with unauthorized distribution) appear noticeably reduce "piracy" and raise paid consumption, but these effects are only transitory.`
+
+---
+
+### Output
+
+Studies concerning other cultural goods exploit quasi-natural experiments of policy and institutional changes. One example of the policy change is the introduction of download penalization in France (HADOPI), as scrutinized by @danaher_effect_2012. The analyzed cases of institutional change include the sudden and transitory disappearance of the NBC content from iTunes [@danaher_converting_2010] as well as the Megaupload shutdown [@danaher_gone_2014; @peukert_piracy_2013] and website blocking in the UK [@danaher_website_2016]. Interestingly, @danaher_gone_2014 and @peukert_piracy_2013 analyzing the same case of Megaupload shutdown come to rather different conclusions: the former find that the shutdown caused an increase in digital downloads from legal sources; the latter finds no change in box office revenue. This difference could be attributed to the fact that a downloaded "pirated" copy may be a perfect substitute for a copy downloaded from a legitimate source, but not for a visit to the movie theater. @danaher_website_2016 argue that only large scale interventions (such as blocking multiple websites with unauthorized distribution) appear noticeably reduce "piracy" and raise paid consumption, but these effects are only transitory.
+
+---
+
+Let's switch to the next .Rmd file.
+
+# References
