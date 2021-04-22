@@ -1,0 +1,105 @@
+---
+title: "Reproducible Research - Grading"
+author: "Wojciech Hardy; Michał Paliński"
+date: "2020/2021"
+output: 
+  html_document:
+    theme: spacelab
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Final grades
+
+#### 1) Final project (90%), including:  
+  - project stored in a repository from the start (viewable history) (20%)
+  - code, results with appropriate documentation (e.g. Markdown) for full reproducibility (including software version, etc.) (40%)
+  - code in a clean and easily readable format (10%)
+  - presentation prepared in Markdown, including the results (20%)
+
+#### 2) Class activities (10%)
+  - not every week
+  - saved within the course repository (see the "Setting up the course repo" .gdoc file)
+  - mainly checked for whether the activity was attempted (not for how much has been done)
+
+---
+
+### Scoring
+
+91-100% - 5  
+81-90% - 4.5  
+71-80% - 4  
+61-70% - 3.5  
+51-60% - 3  
+0-50% - 2
+
+---
+
+### The final project
+
+#### Additional details
+
+- groups of 2-3 people (if necessary, solo projects allowed).
+
+- topic can be chosen from the list of examples (see below), or invented. In the latter case, it has to be first discussed and approved by the course teachers.
+
+- the projects will be presented during the last three classes (app. 15-20 minutes per project).
+
+- deadlines: 
+  - groups and topics picked by the end of April 2021 (and e-mailed to the course teachers).
+  - Links to the project repositories sent no later than the day of the presentation.
+  
+#### List of topic examples: 
+
+1) Take a simple meta-analysis study (examples below). Then do the following: 
+- Reproduce the obtained results using the reported sample of studies.
+- Add 2-5 newer studies, preferably using the selection process reported in the original study.
+- Replicate the results with the extended sample.
+- Present your findings and discuss them.
+
+Examples: 
+
+Card, D., & Krueger, A. (1995). Time-Series Minimum-Wage Studies: A Meta-analysis. _The American Economic Review_, 85(2), 238-243.
+
+Gorg, H., & Strobl, E. (2001). Multinational Companies and Productivity Spillovers: A Meta-Analysis. _The Economic Journal_, 111(475), 723-739.
+
+Glass, G. V., & Smith, M. L. (1979). Meta-Analysis of Research on Class Size and Achievement. _Educational Evaluation and Policy Analysis_, 1(1), 2–16. 
+
+---
+
+2) If you did an econometric analysis in your bachelor thesis (or during other classes), do the following:
+- Reproduce the obtained results (you can reproduce them in different software if needed).
+- Find a way to improve the study or perform a robustness check (to be discussed with the teacher before choosing the topic).
+- Do it.
+- Present the findings, discuss potential inconsistencies or ways for improvement.
+
+---
+
+3) Find a simple study based on small-sample survey data. Then do the following:
+- Reproduce the original findings using the original data.
+- Collect new observations (at least 20-50).
+- Replicate the results with the extended sample.
+- Present your findings and discuss them.
+
+---
+
+4) Ask other course participants (the teacher can send the mail for you) for the p-values, standard errors, t-statics and observation numbers from their bachelor theses (or econometric models). The ones they used to verify any of their hypotheses. The survey can be (should be) anonymised. Then:
+- Conduct an analysis of the distribution of the p-values and other statistics using plots and simple statistics.
+- Present your findings and discuss them.
+
+---
+
+5) Find a topic with a potential to do a series of reports (e.g. depending on the time, or subgroup, etc. - see examples below). Then do the following:
+- Create a report (at least 10 pages) that is automated and depends on the input data.
+- It should include some analyses, graphs and interpretation - all produced depending on the input.
+- It should require only a change in the input file (or input variable) to create a completely new and accurate report.
+
+Examples include:
+
+- A year in box office,
+- Summary of a sports (or e-sports) tournament,
+- A look at the stock exchange (from a specific period),
+- A look at the pandemic (in numbers) for a specified period,
+- etc.
