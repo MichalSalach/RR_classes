@@ -1,0 +1,97 @@
+---
+title: "Reproducible Environment"
+author: "Wojciech Hardy; Michał Paliński"
+date: "5/12/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(renv)
+```
+
+## Reproducible Environment
+
+We have previously learned how to store our codes, data, documentation using version control. This allows us to go back to any of the previous versions of what we've created at any given moment.
+
+However, our codes depend on other variables like package and R versions. Not keeping track of the environment can get us into trouble:
+
+1) Old code might not work.
+
+2) Colleagues unable to achieve the same results despite (seemingly) using the same code.
+
+For full reproducibility we need to either use a fixed environment (one that anyone can access), or have a jointly managed environment (e.g. by admins in a firm), or be able to record what we're using and share it with others.
+
+[Read more about the basic ideas.](https://environments.rstudio.com/)
+
+Sometimes Session Info is all we need:
+
+```{r}
+sessionInfo()
+```
+
+## In other cases: `renv`
+
+`renv` is the R package for reproducible environments (check `virtualenv` or `pipenv` for Python). 
+
+We need to be in a project to initialise this.
+
+```{r}
+renv::init()
+```
+
+You can then take a look at the new folder `renv` and `renv.lock` file.
+
+## What's going on
+
+`renv` creates a library that is specific for our project. In terms of how it works specifically, it tells R to first look for packages in this new folder, and only then globally:
+
+```{r}
+.libPaths()
+```
+And we store other versions of packages here than globally.
+
+## What if we upgrade something?
+
+Let's find us an out-of-date package:
+
+```{r}
+View(old.packages())
+```
+
+```{r}
+# install.packages("highr")
+```
+Take a look at the contents of `renv.lock`. Let's update this.
+
+```{r}
+renv::snapshot()
+```
+Great! But what if our code broke after the update? 
+
+## Reverting environments
+
+The `renv` package can take a look at the Git version control system that stores previous commits. We can use it to revert to a prior version of `renv.lock`.
+
+```{r}
+renv::history()
+```
+
+```{r}
+renv::revert(commit = "3727e178996ba868f4d0230b3ab3601d6e004731	")
+```
+Let's see what happened:
+
+```{r}
+renv::status()
+```
+We have a new version of the package but the lockfile uses an older one. Let's restore it.
+
+```{r}
+renv::restore()
+```
+One last remark: there are other functions in the package. 
+
+E.g. there is another package for storing environments (`packrat`) and `renv::migrate()` allows changing from `packrat` to `renv`.
+
+

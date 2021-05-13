@@ -1,0 +1,277 @@
+---
+title: "Metaanalysis in R"
+author: "Wojciech Hardy; Michał Paliński"
+date: "5/13/2021"
+output:  
+  html_document:
+    theme: united
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(meta)
+library(metafor)
+library(dplyr)
+# devtools::install_github("MathiasHarrer/dmetar")
+setwd("C:\\Users\\whard\\OneDrive\\Desktop\\Reproducible research\\RR_classes\\RR_classes\\may_1014")
+```
+
+## Metaanalysis
+
+This is by no means a complete or thorough guide. 
+
+This is an intro to show you some basic techniques and what has to be considered.
+
+There are good tutorials and guidelines online that present more formal requirements for a proper metaanalysis study. 
+
+---
+
+## Step 1) Choosing your goal
+
+There's a variety of tasks that a metaanalysis can fulfill. Often, setting the goal will define how you approach further steps.
+
+---
+
+### Goal: finding the true/combined effect size
+
+One potential goal is to identify a true effect size when all you have is estimations. Depending on the field or issue this might be straighforward (e.g. the methods and approaches are always the same and only the samples differ) or complex (e.g. methods, periods, variables, samples, contexts differ).
+
+In case of complex problems, you might want and need to add any such differences as control variables.
+
+Specific things to consider:
+
+- what might affect a particular estimate.
+
+- are the estimates comparable (e.g. % change vs linear relationship vs odds ratios).
+
+- are you looking for a 'true' universal effect size (the fixed effect approach), or the 'average' effect size (the random effects approach)?
+
+Fig. 1. "Schematic of the __fixed-effect__ model"
+
+![Source: [Borenstein et al., 2010. A basic introduction to fixed-effect and random-effects models for meta-analysis.](https://www.meta-analysis.com/downloads/Intro_Models.pdf)](img/Fixed effect.png)
+
+Fig. 2. "Schematic of the __random-effects__ model"
+
+![Source: [Borenstein et al., 2010. A basic introduction to fixed-effect and random-effects models for meta-analysis.](https://www.meta-analysis.com/downloads/Intro_Models.pdf)](img/Random effect.png)
+
+Note: this has nothing to do with the fixed/random effects in panel models.
+
+---
+
+### Goal: verifying the reliability of the literature
+
+This goal might focus on finding a publication bias rather than worrying about the effect size. I.e. it might show that, e.g., there are 15 studies that agree with each other but due to publication bias, they should actually be considered as insufficient to confirm a hypothesis.
+
+Specific things to consider:
+
+- are you interested in the source of the publication bias? I.e. if it relates to any identifiable variables?
+
+---
+
+### Goal: identifying new relationships
+
+Goal might be to identify how different methods affect the results. Or other factors such as: period, country/region, diversity and number of authors, authors' affiliation or country of origin, type of publication, inclusion of specific variables, population, etc.
+
+Specific things to consider:
+
+- the hypothesis (i.e. what exactly would you expect to find?)
+
+- relationship can be with the effect size, but also with the result in general, or probability of being published, etc.
+
+---
+
+### Things to consider in all cases (see below)
+
+---
+
+## Step 2) Getting the data
+
+Most meta-analyses require a painstaking amount of work during data collection. Unless the meta-analysis doesn't go very deep - e.g. focuses on journals/names/author lists, etc. (meaning the data is scrapable).
+
+If we want to go deeper and code effect sizes, statistics, outcomes, methods, etc., we're going to have to carefully browse each text individually.
+
+But that's only once we have the articles for the sample. There's a step before that.
+
+### A) Picking the sample
+
+Due to somewhat arbitrary views on what should be included in a meta-analysis, the process should be documented thoroughly to ensure reproducibility and justify the choices.
+
+Crucial: we need to define how we look for papers and what are the exclusion criteria.
+
+**Techniques for searching** include:
+
+- Scholar Google (when? what keywords? how many search results browsed?)
+
+- Research databases like Scopus or Web of Science (when? what keywords?)
+
+- Snowballing, i.e. looking within the ones you've already found (e.g. starting from reviews)
+
+**Exclusion criteria**, e.g.:
+
+- Being on topic (techniques above will likely return many irrelevant studies)
+
+- Published in journals / working papers / mimeos / presentations / conference proceedings / reports?
+
+- Any journals or peer-reviewed? or with Impact Factors?
+
+- Sample sizes, periods, countries, experimental studies, quality of causal inference?
+
+- Language
+
+### B) Data coding
+
+- How many coders (double-checks are good)? 
+
+- How to define the variables? 
+
+- Which results to look at (e.g. all or authors' preference)?
+
+- One or more estimates per paper?
+
+- How many variables needed? 
+
+## Step 3) Data preparation
+
+Finding a common, standardised metric. Examples:
+
+- Simplification: positive vs non-significant vs negative outcome
+
+- "Effect size": common unit / scale (recalculation, transformation to % change, etc.)
+
+Sometimes intermediate steps might be necessary (calculating statistics based on the information provided). Sometimes important data might be missing - you might contact the original author(s) and ask for the missing information.
+
+**Key 1**: effect sizes are independent from sample sizes. 
+
+**Key 2**: however, we may weigh them based on their accuracy (lower samples -> larger variance -> lower accuracy -> smaller weight)
+
+Check e.g. [Pollet, T. (2019) - Meta-analysis: part 2: it’s all about effect sizes…](https://tvpollet.github.io/Meta-analysis_2/Meta-analysis_2.html#1) for an overview of different types of effect sizes, when to use them, how to calculate them. 
+
+## It all gets easier once Steps 1-3 are done and documented :) {.tabset}
+
+Here are a few examples of points above in practice. The excerpts are from [Weichselbaumer, D. and Winter-Ebmer, R. (2005). A Meta-Analysis of the International Gender Wage Gap](https://onlinelibrary.wiley.com/doi/pdf/10.1111/j.0950-0804.2005.00256.x):
+
+### Sample selection
+> In order to make the data construction as transparent as possible, we used an easily accessible but universal research database. Following Stanley and Jarrell (1998), in November 2000, we searched the Economic Literature Index (EconLit) for any reference to: ‘(wage\* or salar\* or earning\*) and (discrimination or differen\*) and (sex or gender)’. (...)
+
+### Exclusion criteria
+> Our EconLit search led to 1541 references of which a large fraction was theoretical, or, in fact, covering an entirely different topic. The empirical papers were examined whether they actually used any regression analysis or simply reported mean ratios without holding productivity constant. Eventually, the desired estimates could be gained from 263 articles.
+
+### Multiple estimates per study
+> Some authors calculated the gender wage gap for several countries or time periods in one published paper. Likewise, they might use data from different distinct populations, like regional or sectoral entities. These estimates can be treated as independent estimates. Therefore, we divided the estimates from one paper into several ‘studies’ if the estimates have come from different time periods and/or different populations. This gives us 788 different studies.
+
+### Which estimates to use
+> Typically, authors present a number of estimates for each study, i.e. country and time unit. These estimates are usually based on different specifications of theregression model. Stanley and Jarrell (1998) selected only one estimate per paperfor their meta-analysis. In particular, they chose ‘the OLS estimate which the author seemed to promote as the best’ (p. 955). We included all estimates the authors presented for a given study to avoid any possibility of a systematic biaswhen picking a certain estimate. (...). In total, this gives us 1535 estimates of the gender wage gap, on average two estimates per study.
+
+Note: weighting is used to deal with lack of independence and uneven numbers of estimates per study.
+
+---
+
+# Let's test some options
+
+Note: the following examples (e.g. data) come from: [Harrer, M., Cuijpers, P., Furukawa, T.A, & Ebert, D. D. (2019). Doing Meta-Analysis in R: A Hands-on Guide. DOI: 10.5281/zenodo.2551803.](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/)/
+
+The `meta` package holds the basic tools needed for meta analysis. 
+
+## Finding the overall effects
+
+### Case 1. Our effect sizes are already calculated
+
+```{r}
+load("data/madata.RData")
+Meta_Analysis_Data[1:5,]
+```
+Here the "Author" identifies the study, TE and seTE are for `Treatment Effect` and `Standard Error of the Treatment Effect`. The data contains information on some clinical trials.
+
+We can now use `meta::metagen` function to estimate the overall effect size. Type `?metagen` to check the possibilities. 
+
+```{r}
+m <- metagen(TE=TE,
+             seTE=seTE,
+             data=Meta_Analysis_Data,
+             studlab=paste(Author),
+             comb.fixed = TRUE,
+             comb.random = FALSE)
+m
+```
+
+Where `studlab` gives us nice study labels and `comb.fixed` specifies the fixed effect approach.
+
+
+### Case 2. Our effect sizes are not calculated but we have the necessary data
+
+
+```{r}
+load("data/metacont.RData")
+metacont[1:5,]
+```
+
+Where:
+- `Ne` is the number of observations in experimental group.
+- `Me` is the estimated mean in experimental group.
+- `Se` is the standard deviation in experimental group.
+- `Nc`, `Mc` and `Sc` are same but for control group.
+
+```{r}
+m.raw <- metacont(n.e=Ne,
+                  mean.e=Me,
+                  sd.e=Se,
+                  n.c=Nc,
+                  mean.c=Mc,
+                  sd.c=Sc,
+                  data=metacont,
+                  studlab=paste(Author),
+                  comb.fixed = TRUE,
+                  comb.random = TRUE,
+)
+m.raw
+```
+### Case 3. `matada` again but with Random effects
+
+```{r}
+m_re <- metagen(TE=TE,
+             seTE=seTE,
+             data=Meta_Analysis_Data,
+             studlab=paste(Author),
+             comb.fixed = FALSE,
+             comb.random = TRUE)
+m_re
+```
+### One popular way of depicting such analyses: `forest plots`
+
+With `meta` package this is very simple. We just put our results into the `forest()` function:
+
+```{r}
+m %>% forest(sortvar=TE)
+```
+
+```{r}
+m_re %>% forest(sortvar=TE)
+```
+
+## Finding what explains the results
+
+Once we have defined what is what in a meta-analysis setting, we can again use it for other calculations. Let's see if the effect sizes are determined by how the study was conducted and who was involved.
+
+```{r}
+m %>% metareg(`mode of delivery` + `type of students`)
+  
+```  
+
+## Checking for publication bias
+
+Again, we use what we defined previously.
+
+```{r}
+m %>% funnel()
+```
+
+And we can add some additional features, e.g. let's make it a 'contour-enhanced' funnel plot:
+
+```{r}
+m %>% funnel(contour = c(.95,.975,.99),
+       col.contour=c("darkblue","blue","lightblue"))+
+legend(1.4, 0, c("p < 0.05", "p<0.025", "< 0.01"),bty = "n",
+       fill=c("darkblue","blue","lightblue"))
+```
